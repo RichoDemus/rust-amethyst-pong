@@ -64,7 +64,7 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderUi::default()),
         )?;
 
-    let assets_dir = "./";
+    let assets_dir = "./assets";
     let mut world = World::new();
     let mut game = Application::new(assets_dir, Pong::default(), game_data)?;
     game.run();
