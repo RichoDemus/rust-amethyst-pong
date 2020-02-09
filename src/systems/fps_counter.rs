@@ -1,18 +1,12 @@
 use amethyst::utils::fps_counter::FpsCounter;
 use amethyst::{
-    assets::{AssetStorage, Handle, Loader},
-    core::transform::Transform,
-    ecs::prelude::{Component, DenseVecStorage, Entity},
-    prelude::*,
-    renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
-    ui::{Anchor, TtfFormat, UiText, UiTransform},
-};
-use amethyst::{
+    assets::Loader,
     core::SystemDesc,
     derive::SystemDesc,
-    ecs::prelude::{
-        Join, Read, ReadExpect, ReadStorage, System, SystemData, World, WorldExt, WriteStorage,
-    },
+    ecs::prelude::Entity,
+    ecs::prelude::{Read, ReadExpect, System, SystemData, World, WorldExt, WriteStorage},
+    prelude::*,
+    ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
 
 #[derive(SystemDesc)]

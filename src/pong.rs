@@ -115,7 +115,7 @@ fn initialise_paddles(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
 
     // Assign the sprites for the paddles
     let sprite_render = SpriteRender {
-        sprite_sheet: sprite_sheet.clone(),
+        sprite_sheet,
         sprite_number: 0, // paddle is the first sprite in the sprite_sheet
     };
 

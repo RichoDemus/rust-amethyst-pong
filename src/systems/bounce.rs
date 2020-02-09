@@ -3,12 +3,8 @@ use std::ops::Deref;
 use amethyst::{
     assets::AssetStorage,
     audio::{output::Output, Source},
-    ecs::{Read, ReadExpect},
-};
-use amethyst::{
-    core::{SystemDesc, Transform},
-    derive::SystemDesc,
-    ecs::prelude::{Join, ReadStorage, System, SystemData, World, WriteStorage},
+    core::Transform,
+    ecs::prelude::{Join, Read, ReadExpect, ReadStorage, System, WriteStorage},
 };
 
 use crate::audio::{play_bounce_sound, Sounds};
@@ -63,17 +59,11 @@ impl<'s> System<'s> for BounceSystem {
                     paddle_y - ball.radius,
                     paddle_x + paddle.width + ball.radius,
                     paddle_y + paddle.height + ball.radius,
-                ) {
-                    if (paddle.side == Side::Left && ball.velocity[0] < 0.0)
-                        || (paddle.side == Side::Right && ball.velocity[0] > 0.0)
-                    {
-                        ball.velocity[0] = -ball.velocity[0];
-                        play_bounce_sound(
-                            &*sounds,
-                            &storage,
-                            audio_output.as_ref().map(|o| o.deref()),
-                        );
-                    }
+                ) && ((paddle.side == Side::Left && ball.velocity[0] < 0.0)
+                    || (paddle.side == Side::Right && ball.velocity[0] > 0.0))
+                {
+                    ball.velocity[0] = -ball.velocity[0];
+                    play_bounce_sound(&*sounds, &storage, audio_output.as_ref().map(|o| o.deref()));
                 }
             }
         }

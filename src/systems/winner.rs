@@ -31,15 +31,15 @@ impl<'s> System<'s> for WinnerSystem {
     fn run(
         &mut self,
         (
-        mut balls,
-        mut locals,
-        mut ui_text,
-        mut scores,
-        score_text,
-        storage,
-        sounds,
-        audio_output,
-    ): Self::SystemData,
+            mut balls,
+            mut locals,
+            mut ui_text,
+            mut scores,
+            score_text,
+            storage,
+            sounds,
+            audio_output,
+        ): Self::SystemData,
     ) {
         for (ball, transform) in (&mut balls, &mut locals).join() {
             let ball_x = transform.translation().x;
