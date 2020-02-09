@@ -9,7 +9,8 @@ version = "0.1.0"
 authors = []
 edition = "2018"
 
-#[dependencies]
+[dependencies]
+#amethyst_utils = "*"
 #amethyst = "0.12.0"
 
 #[features]

@@ -8,7 +8,7 @@ use amethyst::{
 };
 use amethyst::core::timing::Time;
 use crate::audio::initialise_audio;
-
+use crate::systems::fps_counter;
 
 pub const ARENA_HEIGHT: f32 = 100.0;
 pub const ARENA_WIDTH: f32 = 100.0;
@@ -39,6 +39,7 @@ impl SimpleState for Pong {
         initialise_camera(world);
         initialise_scoreboard(world);
         initialise_audio(world);
+        fps_counter::initialize_fps_counter(world);
     }
 
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
@@ -242,3 +243,5 @@ fn initialise_scoreboard(world: &mut World) {
 
     world.insert(ScoreText { p1_score, p2_score });
 }
+
+

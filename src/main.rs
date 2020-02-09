@@ -14,6 +14,7 @@ use amethyst::input::{InputBundle, StringBindings};
 use amethyst::ui::{RenderUi, UiBundle};
 use amethyst::audio::AudioBundle;
 use amethyst::audio::DjSystemDesc;
+use amethyst::utils::fps_counter::FpsCounterBundle;
 use crate::audio::Music;
 
 mod pong;
@@ -51,6 +52,7 @@ fn main() -> amethyst::Result<()> {
             &["paddle_system", "ball_system"],
         )
         .with(systems::WinnerSystem, "winner_system", &["ball_system"])
+        .with(systems::FpsCounterSystem, "fps_counter_system_display", &[])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 // The RenderToWindow plugin provides all the scaffolding for opening a window and
@@ -62,7 +64,8 @@ fn main() -> amethyst::Result<()> {
                 // RenderFlat2D plugin is used to render entities with `SpriteRender` component.
                 .with_plugin(RenderFlat2D::default())
                 .with_plugin(RenderUi::default()),
-        )?;
+        )?
+        .with_bundle(FpsCounterBundle::default())?;
 
     let assets_dir = "./assets";
     let mut world = World::new();
