@@ -1,20 +1,18 @@
+use std::ops::Deref;
+
 use amethyst::{
-    core::{Transform, SystemDesc},
+    core::{SystemDesc, Transform},
     derive::SystemDesc,
     ecs::prelude::{Join, ReadStorage, System, SystemData, World, WriteStorage},
 };
-
-use std::ops::Deref;
-
 use amethyst::{
     assets::AssetStorage,
     audio::{output::Output, Source},
     ecs::{Read, ReadExpect},
 };
 
-
-use crate::pong::{Ball, Side, Paddle, ARENA_HEIGHT};
 use crate::audio::{play_bounce_sound, Sounds};
+use crate::pong::{ARENA_HEIGHT, Ball, Paddle, Side};
 
 pub struct BounceSystem;
 

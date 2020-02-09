@@ -1,7 +1,7 @@
 use amethyst::{
     core::SystemDesc,
     derive::SystemDesc,
-    ecs::prelude::{Join, Read, ReadStorage, System, SystemData, World, WorldExt, WriteStorage, ReadExpect},
+    ecs::prelude::{Join, Read, ReadExpect, ReadStorage, System, SystemData, World, WorldExt, WriteStorage},
 };
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
@@ -33,7 +33,6 @@ impl<'s> System<'s> for FpsCounterSystem {
         if let Some(text) = ui_text.get_mut(fps_text.fps) {
             text.text = format!("{:.0}", fps);
         }
-
     }
 }
 

@@ -1,7 +1,13 @@
+use std::{iter::Cycle, vec::IntoIter};
+
 use amethyst::{
     assets::Loader,
-    audio::{OggFormat, SourceHandle, AudioSink},
+    audio::{AudioSink, OggFormat, SourceHandle},
     ecs::{World, WorldExt},
+};
+use amethyst::{
+    assets::AssetStorage,
+    audio::{output::Output, Source},
 };
 
 const BOUNCE_SOUND: &str = "audio/bounce.ogg";
@@ -23,10 +29,6 @@ fn load_audio_track(loader: &Loader, world: &World, file: &str) -> SourceHandle 
 }
 
 
-use amethyst::{
-    assets::AssetStorage,
-    audio::{output::Output, Source},
-};
 pub fn play_bounce_sound(sounds: &Sounds, storage: &AssetStorage<Source>, output: Option<&Output>) {
     if let Some(ref output) = output.as_ref() {
         if let Some(sound) = storage.get(&sounds.bounce_sfx) {
@@ -42,8 +44,6 @@ pub fn play_score_sound(sounds: &Sounds, storage: &AssetStorage<Source>, output:
         }
     }
 }
-
-use std::{iter::Cycle, vec::IntoIter};
 
 pub struct Music {
     pub music: Cycle<IntoIter<SourceHandle>>,

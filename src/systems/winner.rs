@@ -1,20 +1,20 @@
+use std::ops::Deref;
+
 use amethyst::{
-    core::transform::Transform,
+    audio::{output::Output, Source},
     core::SystemDesc,
+    core::transform::Transform,
     derive::SystemDesc,
     ecs::prelude::{Join, ReadExpect, System, SystemData, World, Write, WriteStorage},
     ui::UiText,
-    audio::{output::Output, Source},
 };
-
 use amethyst::{
     assets::AssetStorage,
     ecs::Read,
 };
-use crate::audio::{play_score_sound, Sounds};
-use std::ops::Deref;
 
-use crate::pong::{Ball, ScoreBoard, ScoreText, ARENA_WIDTH};
+use crate::audio::{play_score_sound, Sounds};
+use crate::pong::{ARENA_WIDTH, Ball, ScoreBoard, ScoreText};
 
 #[derive(SystemDesc)]
 pub struct WinnerSystem;
@@ -40,7 +40,7 @@ impl<'s> System<'s> for WinnerSystem {
         storage,
         sounds,
         audio_output,
-    ): Self::SystemData)  {
+    ): Self::SystemData) {
         for (ball, transform) in (&mut balls, &mut locals).join() {
             let ball_x = transform.translation().x;
 

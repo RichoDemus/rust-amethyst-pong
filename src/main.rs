@@ -4,24 +4,24 @@ use amethyst::{
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
-        types::DefaultBackend,
         RenderingBundle,
+        types::DefaultBackend,
     },
     utils::application_root_dir,
 };
+use amethyst::audio::AudioBundle;
+use amethyst::audio::DjSystemDesc;
 use amethyst::core::transform::TransformBundle;
 use amethyst::input::{InputBundle, StringBindings};
 use amethyst::ui::{RenderUi, UiBundle};
-use amethyst::audio::AudioBundle;
-use amethyst::audio::DjSystemDesc;
 use amethyst::utils::fps_counter::FpsCounterBundle;
+
 use crate::audio::Music;
+use crate::pong::Pong;
 
 mod pong;
 mod systems;
 mod audio;
-
-use crate::pong::Pong;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());

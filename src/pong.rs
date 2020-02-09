@@ -1,5 +1,5 @@
 use amethyst::{
-    assets::{AssetStorage, Loader, Handle},
+    assets::{AssetStorage, Handle, Loader},
     core::transform::Transform,
     ecs::prelude::{Component, DenseVecStorage, Entity},
     prelude::*,
@@ -7,15 +7,16 @@ use amethyst::{
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
 use amethyst::core::timing::Time;
+
 use crate::audio::initialise_audio;
 use crate::systems::fps_counter;
 
 pub const ARENA_HEIGHT: f32 = 100.0;
 pub const ARENA_WIDTH: f32 = 100.0;
 //pub const BALL_VELOCITY_X: f32 = 75.0;
-pub const BALL_VELOCITY_X: f32 = 75.0/2.0;
+pub const BALL_VELOCITY_X: f32 = 75.0 / 2.0;
 //pub const BALL_VELOCITY_Y: f32 = 50.0;
-pub const BALL_VELOCITY_Y: f32 = 50.0/2.0;
+pub const BALL_VELOCITY_Y: f32 = 50.0 / 2.0;
 pub const BALL_RADIUS: f32 = 2.0;
 
 #[derive(Default)]

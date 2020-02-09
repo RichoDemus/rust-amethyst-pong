@@ -20,5 +20,5 @@ edition = "2018"
 
 [dependencies.amethyst]
 version = "0.13"
-features = ["metal","nightly"]
+features = ["metal"]
 
