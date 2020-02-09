@@ -1,18 +1,18 @@
-use amethyst::core::timing::Time;
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
     core::transform::Transform,
     ecs::prelude::{Component, DenseVecStorage, Entity},
     prelude::*,
-    renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
+    renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture, Transparent},
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
+use amethyst::core::timing::Time;
 
 use crate::audio::initialise_audio;
 use crate::systems::fps_counter;
 
-pub const ARENA_HEIGHT: f32 = 100.0;
-pub const ARENA_WIDTH: f32 = 100.0;
+pub const ARENA_HEIGHT: f32 = 320.0;
+pub const ARENA_WIDTH: f32 = 320.0;
 //pub const BALL_VELOCITY_X: f32 = 75.0;
 pub const BALL_VELOCITY_X: f32 = 75.0 / 2.0;
 //pub const BALL_VELOCITY_Y: f32 = 50.0;
@@ -23,6 +23,7 @@ pub const BALL_RADIUS: f32 = 2.0;
 pub struct Pong {
     ball_spawn_timer: Option<f32>,
     sprite_sheet_handle: Option<Handle<SpriteSheet>>,
+    grass_sheet_handle: Option<Handle<SpriteSheet>>,
 }
 
 impl SimpleState for Pong {
@@ -36,7 +37,9 @@ impl SimpleState for Pong {
         // `spritesheet` is the layout of the sprites on the image;
         // `texture` is the pixel data.
         self.sprite_sheet_handle.replace(load_sprite_sheet(world));
+        self.grass_sheet_handle.replace(load_grass_sheet(world));
         initialise_paddles(world, self.sprite_sheet_handle.clone().unwrap());
+        initialise_grass(world, self.grass_sheet_handle.clone().unwrap());
         initialise_camera(world);
         initialise_scoreboard(world);
         initialise_audio(world);
@@ -136,6 +139,33 @@ fn initialise_paddles(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
         .build();
 }
 
+fn initialise_grass(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
+//    let (width, height) = {
+//        let dim = world.read_resource::<ScreenDimensions>();
+//        (dim.width(), dim.height())
+//    };
+
+    let sprite_render = SpriteRender {
+        sprite_sheet,
+        sprite_number: 0, // First sprite
+    };
+
+    for y in 0..10 {
+        for x in 0..10 {
+            // Move the sprite to the middle of the window
+            let mut sprite_transform = Transform::default();
+            sprite_transform.set_translation_xyz((x * 32 + 16) as f32, (y * 32 + 16) as f32, 0.);
+
+            world
+                .create_entity()
+                .with(sprite_render.clone())
+                .with(sprite_transform)
+                .with(Transparent) // If your sprite is transparent
+                .build();
+        }
+    }
+}
+
 fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     // Load the sprite sheet necessary to render the graphics.
     // The texture is the pixel data
@@ -155,6 +185,28 @@ fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     let sprite_sheet_store = world.read_resource::<AssetStorage<SpriteSheet>>();
     loader.load(
         "texture/pong_spritesheet.ron", // Here we load the associated ron file
+        SpriteSheetFormat(texture_handle),
+        (),
+        &sprite_sheet_store,
+    )
+}
+
+fn load_grass_sheet(world: &mut World) -> Handle<SpriteSheet> {
+    let texture_handle = {
+        let loader = world.read_resource::<Loader>();
+        let texture_storage = world.read_resource::<AssetStorage<Texture>>();
+        loader.load(
+            "texture/grass.png",
+            ImageFormat::default(),
+            (),
+            &texture_storage,
+        )
+    };
+
+    let loader = world.read_resource::<Loader>();
+    let sprite_sheet_store = world.read_resource::<AssetStorage<SpriteSheet>>();
+    loader.load(
+        "texture/grass_spritesheet.ron", // Here we load the associated ron file
         SpriteSheetFormat(texture_handle),
         (),
         &sprite_sheet_store,

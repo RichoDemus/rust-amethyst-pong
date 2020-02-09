@@ -27,7 +27,7 @@ fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
 
     let app_root = application_root_dir()?;
-    let display_config_path = app_root.join("config");
+    let display_config_path = app_root.join("config").join("display.ron");
 
     let binding_path = app_root.join("config").join("bindings.ron");
     let input_bundle =
