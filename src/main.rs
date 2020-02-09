@@ -1,27 +1,27 @@
 //! Pong Tutorial 1
 
-use amethyst::{
-    prelude::*,
-    renderer::{
-        plugins::{RenderFlat2D, RenderToWindow},
-        RenderingBundle,
-        types::DefaultBackend,
-    },
-    utils::application_root_dir,
-};
 use amethyst::audio::AudioBundle;
 use amethyst::audio::DjSystemDesc;
 use amethyst::core::transform::TransformBundle;
 use amethyst::input::{InputBundle, StringBindings};
 use amethyst::ui::{RenderUi, UiBundle};
 use amethyst::utils::fps_counter::FpsCounterBundle;
+use amethyst::{
+    prelude::*,
+    renderer::{
+        plugins::{RenderFlat2D, RenderToWindow},
+        types::DefaultBackend,
+        RenderingBundle,
+    },
+    utils::application_root_dir,
+};
 
 use crate::audio::Music;
 use crate::pong::Pong;
 
+mod audio;
 mod pong;
 mod systems;
-mod audio;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -30,8 +30,8 @@ fn main() -> amethyst::Result<()> {
     let display_config_path = app_root.join("config");
 
     let binding_path = app_root.join("config").join("bindings.ron");
-    let input_bundle = InputBundle::<StringBindings>::new()
-        .with_bindings_from_file(binding_path)?;
+    let input_bundle =
+        InputBundle::<StringBindings>::new().with_bindings_from_file(binding_path)?;
 
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
@@ -68,11 +68,9 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(FpsCounterBundle::default())?;
 
     let assets_dir = "./assets";
-    let mut world = World::new();
+    //    let mut world = World::new();
     let mut game = Application::new(assets_dir, Pong::default(), game_data)?;
     game.run();
 
-
     Ok(())
 }
-

@@ -4,7 +4,7 @@ use amethyst::ecs::{Join, Read, ReadStorage, System, SystemData, World, WriteSto
 use amethyst::input::{InputHandler, StringBindings};
 
 // You'll have to mark PADDLE_HEIGHT as public in pong.rs
-use crate::pong::{ARENA_HEIGHT, Paddle, PADDLE_HEIGHT, Side};
+use crate::pong::{Paddle, Side, ARENA_HEIGHT, PADDLE_HEIGHT};
 
 #[derive(SystemDesc)]
 pub struct PaddleSystem;

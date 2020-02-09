@@ -1,8 +1,4 @@
-use amethyst::{
-    core::SystemDesc,
-    derive::SystemDesc,
-    ecs::prelude::{Join, Read, ReadExpect, ReadStorage, System, SystemData, World, WorldExt, WriteStorage},
-};
+use amethyst::utils::fps_counter::FpsCounter;
 use amethyst::{
     assets::{AssetStorage, Handle, Loader},
     core::transform::Transform,
@@ -11,7 +7,13 @@ use amethyst::{
     renderer::{Camera, ImageFormat, SpriteRender, SpriteSheet, SpriteSheetFormat, Texture},
     ui::{Anchor, TtfFormat, UiText, UiTransform},
 };
-use amethyst::utils::fps_counter::FpsCounter;
+use amethyst::{
+    core::SystemDesc,
+    derive::SystemDesc,
+    ecs::prelude::{
+        Join, Read, ReadExpect, ReadStorage, System, SystemData, World, WorldExt, WriteStorage,
+    },
+};
 
 #[derive(SystemDesc)]
 pub struct FpsCounterSystem;
@@ -47,19 +49,21 @@ pub fn initialize_fps_counter(world: &mut World) {
         &world.read_resource(),
     );
     let p1_transform = UiTransform::new(
-        "FPS".to_string(), Anchor::BottomRight, Anchor::BottomRight,
-        0., 0., 1., 200., 50.,
+        "FPS".to_string(),
+        Anchor::BottomRight,
+        Anchor::BottomRight,
+        0.,
+        0.,
+        1.,
+        200.,
+        50.,
     );
 
     let fps = world
         .create_entity()
         .with(p1_transform)
-        .with(UiText::new(
-            font.clone(),
-            "0".to_string(),
-            [1., 1., 1., 1.],
-            50.,
-        )).build();
+        .with(UiText::new(font, "0".to_string(), [1., 1., 1., 1.], 50.))
+        .build();
 
     world.insert(FpsText { fps });
 }

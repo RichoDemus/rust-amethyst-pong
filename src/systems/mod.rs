@@ -4,8 +4,8 @@ pub use self::move_balls::MoveBallsSystem;
 pub use self::paddle::PaddleSystem;
 pub use self::winner::WinnerSystem;
 
-mod winner;
-mod paddle;
 mod bounce;
-mod move_balls;
 pub mod fps_counter;
+mod move_balls;
+mod paddle;
+mod winner;

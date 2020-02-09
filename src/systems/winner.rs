@@ -1,20 +1,17 @@
 use std::ops::Deref;
 
+use amethyst::{assets::AssetStorage, ecs::Read};
 use amethyst::{
     audio::{output::Output, Source},
-    core::SystemDesc,
     core::transform::Transform,
+    core::SystemDesc,
     derive::SystemDesc,
     ecs::prelude::{Join, ReadExpect, System, SystemData, World, Write, WriteStorage},
     ui::UiText,
 };
-use amethyst::{
-    assets::AssetStorage,
-    ecs::Read,
-};
 
 use crate::audio::{play_score_sound, Sounds};
-use crate::pong::{ARENA_WIDTH, Ball, ScoreBoard, ScoreText};
+use crate::pong::{Ball, ScoreBoard, ScoreText, ARENA_WIDTH};
 
 #[derive(SystemDesc)]
 pub struct WinnerSystem;
@@ -31,7 +28,9 @@ impl<'s> System<'s> for WinnerSystem {
         Option<Read<'s, Output>>,
     );
 
-    fn run(&mut self, (
+    fn run(
+        &mut self,
+        (
         mut balls,
         mut locals,
         mut ui_text,
@@ -40,15 +39,15 @@ impl<'s> System<'s> for WinnerSystem {
         storage,
         sounds,
         audio_output,
-    ): Self::SystemData) {
+    ): Self::SystemData,
+    ) {
         for (ball, transform) in (&mut balls, &mut locals).join() {
             let ball_x = transform.translation().x;
 
             let did_hit = if ball_x <= ball.radius {
                 // Right player scored on the left side.
                 // We top the score at 999 to avoid text overlap.
-                scores.score_right = (scores.score_right + 1)
-                    .min(999);
+                scores.score_right = (scores.score_right + 1).min(999);
 
                 if let Some(text) = ui_text.get_mut(score_text.p2_score) {
                     text.text = scores.score_right.to_string();
@@ -57,8 +56,7 @@ impl<'s> System<'s> for WinnerSystem {
             } else if ball_x >= ARENA_WIDTH - ball.radius {
                 // Left player scored on the right side.
                 // We top the score at 999 to avoid text overlap.
-                scores.score_left = (scores.score_left + 1)
-                    .min(999);
+                scores.score_left = (scores.score_left + 1).min(999);
                 if let Some(text) = ui_text.get_mut(score_text.p1_score) {
                     text.text = scores.score_left.to_string();
                 }
